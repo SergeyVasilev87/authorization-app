@@ -22,20 +22,20 @@ public class MyController {
         return "home";
     }
 
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "login";
-    }
+//    @GetMapping("/login")
+//    public String getLoginPage() {
+//        return "login";
+//    }
 
     @GetMapping("/hello")
     public String getHelloPage() {
         return "hello";
     }
 
-    @GetMapping("/mylogin")
-    public String getMyLoginPage() {
-        return "mylogin";
-    }
+//    @GetMapping("/mylogin")
+//    public String getMyLoginPage() {
+//        return "mylogin";
+//    }
 
     @GetMapping("/darklogin")
     public String getDarkLoginPage() {
@@ -50,12 +50,6 @@ public class MyController {
 
     @PostMapping("/registration")
     public String addNewUser(@ModelAttribute("userForm") User user) {
-        String password = user.getPassword();
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
-        String encode = bCryptPasswordEncoder.encode(password);
-        user.setPassword(encode);
-        user.setRole(Role.USER);
-        user.setStatus(Status.ACTIVE);
         userDetailService.saveuser(user);
         return "redirect:/darklogin";
     }

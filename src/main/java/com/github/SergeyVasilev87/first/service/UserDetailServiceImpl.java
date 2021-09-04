@@ -1,5 +1,6 @@
 package com.github.SergeyVasilev87.first.service;
 
+import com.github.SergeyVasilev87.first.entity.Role;
 import com.github.SergeyVasilev87.first.entity.Status;
 import com.github.SergeyVasilev87.first.entity.User;
 import com.github.SergeyVasilev87.first.repository.UserRepository;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service("userDetailServiceImpl")
 public class UserDetailServiceImpl implements UserDetailsService {
 //    @Autowired
-//    BCryptPasswordEncoder bCryptPasswordEncoder;
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     private final UserRepository userRepository;
 
@@ -22,8 +23,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public void saveuser(User user) { //todo
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    public void saveuser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
+        user.setStatus(Status.ACTIVE);
         userRepository.save(user);
     }
 

@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/","/registration").permitAll()
-                    .antMatchers("/h2-console").permitAll()
+                    .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/home/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                     .anyRequest().authenticated()
                 .and()
@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID")
                     .logoutSuccessUrl("/darklogin")
                     .permitAll();
+        http.headers().frameOptions().disable(); //для возможности просмотра h2 консоли
     }
 
     @Override
@@ -59,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //AuthenticationManager делегирует провайдеру извлечь данные их хранилища, проверить
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
