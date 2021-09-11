@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
-                    .loginPage("/darklogin")
+                    .loginPage("/login")
                     .defaultSuccessUrl("/hello")
                     .permitAll()
                 .and()
@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true) //чистим
                     .clearAuthentication(true) //чистим
                     .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/darklogin")
+                    .logoutSuccessUrl("/login")
                     .permitAll();
         http.headers().frameOptions().disable(); //для возможности просмотра h2 консоли
     }

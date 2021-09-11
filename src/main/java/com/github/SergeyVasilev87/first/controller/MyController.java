@@ -1,13 +1,13 @@
 package com.github.SergeyVasilev87.first.controller;
 
-import com.github.SergeyVasilev87.first.entity.Role;
-import com.github.SergeyVasilev87.first.entity.Status;
 import com.github.SergeyVasilev87.first.entity.User;
 import com.github.SergeyVasilev87.first.service.UserDetailServiceImpl;
+import com.github.SergeyVasilev87.first.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,30 +16,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MyController {
     @Autowired
     UserDetailServiceImpl userDetailService;
+    @Autowired
+    ValidationService validationService;
 
     @GetMapping("/")
     public String getHomePage() {
         return "home";
     }
 
-//    @GetMapping("/login")
-//    public String getLoginPage() {
-//        return "login";
-//    }
-
     @GetMapping("/hello")
     public String getHelloPage() {
         return "hello";
     }
 
-//    @GetMapping("/mylogin")
-//    public String getMyLoginPage() {
-//        return "mylogin";
-//    }
-
-    @GetMapping("/darklogin")
+    @GetMapping("/login")
     public String getDarkLoginPage() {
-        return "darklogin";
+        return "login";
     }
 
     @GetMapping("/registration")
@@ -49,8 +41,15 @@ public class MyController {
     }
 
     @PostMapping("/registration")
-    public String addNewUser(@ModelAttribute("userForm") User user) {
+    public String addNewUser(@ModelAttribute("userForm") User user, BindingResult bindingResult) {
+
+        if (!validationService.passwordSimilarityCheck(user)) {
+            String err = "Password mismatch. Please try again.";
+            ObjectError error = new ObjectError("globalError", err);
+            bindingResult.addError(error);
+            return "registration";
+        }
         userDetailService.saveuser(user);
-        return "redirect:/darklogin";
+        return "redirect:/login";
     }
 }

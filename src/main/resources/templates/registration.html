@@ -5,8 +5,8 @@
     <title>Registration form</title>
 
 
-
     <link media="all" rel="stylesheet" th:href="@{/css/darkstyle.css}" type="text/css"/>
+
 
 
 </head>
@@ -17,13 +17,20 @@
     <form id="signin" method="post" th:action="@{/registration}" autocomplete="off">
         <input type="text" id="user" name="login" placeholder="login" />
         <input type="password" id="pass" name="password" placeholder="password" />
-<!--        <input type="password" id="pass1" name="passwordconfirm" placeholder="confirm password" />-->
+        <input type="password" id="passConf" name="passwordConfirm" placeholder="confirm password" />
+
         <button type="submit">&#xf0da;</button>
-        <p>return to login page <a th:href="@{/darklogin}">click here</a></p>
-<!--        <p>forgot your password? <a href="#">click here</a></p>-->
+        <p>return to login page <a th:href="@{/login}">click here</a></p>
+
+
+
+        <div th:object="${userForm}" >
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" style="font-size:30px" />
+        </div>
+
     </form>
 </div>
 
-
 </body>
 </html>
+

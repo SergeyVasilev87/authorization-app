@@ -26,4 +26,7 @@ public class User {
     @Column
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Transient
+    private String passwordConfirm;
 }
